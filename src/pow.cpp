@@ -53,10 +53,23 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 }
 
+static int iNextWorkCount = 0;	//用来降低日志的打印频率
+
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
+
+	iNextWorkCount++;
+
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
+
+    //降低日志的打印频率
+    if( 1 == iNextWorkCount % 1000)
+    {
+    	LogPrintf("  iNextWorkCount=%d\n", iNextWorkCount);
+    	LogPrintf("  nActualTimespan=%d  before bounds\n", nActualTimespan);
+    }
+
     LogPrintf("  nActualTimespan = %d  before bounds\n", nActualTimespan);
     if (nActualTimespan < params.nPowTargetTimespan/4)
         nActualTimespan = params.nPowTargetTimespan/4;
@@ -80,6 +93,16 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     LogPrintf("params.nPowTargetTimespan = %d    nActualTimespan = %d\n", params.nPowTargetTimespan, nActualTimespan);
     LogPrintf("Before: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
     LogPrintf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+
+    //降低日志的打印频率
+    if( 1 == iNextWorkCount % 1000)
+    {
+    	/// debug print
+    	LogPrintf("GetNextWorkRequired RETARGET\n");
+    	LogPrintf("params.nPowTargetTimespan = %d    nActualTimespan = %d\n", params.nPowTargetTimespan, nActualTimespan);
+    	LogPrintf("Before: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
+    	LogPrintf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+    }
 
     return bnNew.GetCompact();
 }

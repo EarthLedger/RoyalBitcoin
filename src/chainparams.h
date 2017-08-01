@@ -118,4 +118,6 @@ void SelectParams(CBaseChainParams::Network network);
  */
 bool SelectParamsFromCommandLine();
 
+int createMyGenesisBlock();
+
 #endif // BITCOIN_CHAINPARAMS_H

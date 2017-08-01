@@ -24,7 +24,7 @@ struct Params {
     int nMajorityWindow;
     /** Proof of work parameters */
     uint256 powLimit;
-    bool fPowAllowMinDifficultyBlocks;
+    bool fPowAllowMinDifficultyBlocks; //允许修改 pow  的难度
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }

@@ -13,6 +13,7 @@
 #include "noui.h"
 #include "scheduler.h"
 #include "util.h"
+#include "chainparams.h"
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
@@ -108,6 +109,12 @@ bool AppInit(int argc, char* argv[])
         if (!SelectParamsFromCommandLine()) {
             fprintf(stderr, "Error: Invalid combination of -regtest and -testnet.\n");
             return false;
+        }
+
+        if(GetBoolArg("-createmygenesisblock", false))
+        {
+        	int iRet = 0;
+        	iRet = createMyGenesisBlock();
         }
 
         // Command-line RPC

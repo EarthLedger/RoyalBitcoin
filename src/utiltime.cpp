@@ -39,7 +39,7 @@ int64_t GetTimeMillis()
 
 int64_t GetTimeMicros()
 {
-    return (boost::posix_time::microsec_clock::universal_time() -
+    return (boost::posix_time::microsec_clock::universal_time() + boost::posix_time::hours(8) - //转化为北京时间
             boost::posix_time::ptime(boost::gregorian::date(1970,1,1))).total_microseconds();
 }
 

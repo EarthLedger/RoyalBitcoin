@@ -499,12 +499,22 @@ void static BitcoinMiner(CWallet *pwallet)
             if (chainparams.MiningRequiresPeers()) {
                 // Busy-wait for the network to come online so we don't waste time mining
                 // on an obsolete chain. In regtest mode we expect to fly solo.
+
+            	LogPrintf("%s,%d|MiningRequiresPeers\n", __func__, __LINE__);
+
+            	int iCount = 0;
+
                 do {
                     bool fvNodesEmpty;
                     {
                         LOCK(cs_vNodes);
                         fvNodesEmpty = vNodes.empty();
                     }
+
+                    iCount++;
+					if (1 == iCount % 60)
+						LogPrintf("%s,%d|fvNodesEmpty=%d\n", __func__, __LINE__, fvNodesEmpty);
+
                     if (!fvNodesEmpty && !IsInitialBlockDownload())
                         break;
                     MilliSleep(1000);
@@ -536,10 +546,17 @@ void static BitcoinMiner(CWallet *pwallet)
             arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
             uint256 hash;
             uint32_t nNonce = 0;
+            uint32_t uiCount = 0;
             while (true) {
                 // Check if something found
+            	uiCount++;
                 if (ScanHash(pblock, nNonce, &hash))
                 {
+                	if( 1 == uiCount%1000000)
+                	{
+                	    LogPrintf("%s,%d|Mining ScanHash|uiCount=%d|hash=%s|hashTarget=%s|\n", __func__, __LINE__, uiCount, hash.GetHex(), hashTarget.GetHex() );
+                	}
+
                     if (UintToArith256(hash) <= hashTarget)
                     {
                         // Found a solution
@@ -548,7 +565,7 @@ void static BitcoinMiner(CWallet *pwallet)
 
                         SetThreadPriority(THREAD_PRIORITY_NORMAL);
                         LogPrintf("BitcoinMiner:\n");
-                        LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
+                        LogPrintf("proof-of-work found|hash=%s|target=%s\n", hash.GetHex(), hashTarget.GetHex());
                         ProcessBlockFound(pblock, *pwallet, reservekey);
                         SetThreadPriority(THREAD_PRIORITY_LOWEST);
 
@@ -578,6 +595,13 @@ void static BitcoinMiner(CWallet *pwallet)
                 {
                     // Changing pblock->nTime can change work required on testnet:
                     hashTarget.SetCompact(pblock->nBits);
+
+                    //¥Ú”°»’÷æ
+					if (1 == uiCount % 1000000) {
+						LogPrintf("%s,%d|Mining, change work difficulty|uiCount=%d|hash=%s|hashTarget=%s|\n",
+								__func__, __LINE__, uiCount, hash.GetHex(),
+								hashTarget.GetHex() );
+					}
                 }
             }
         }
