@@ -126,13 +126,13 @@ public:
         genesis.hashPrevBlock.SetNull();
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime    = 1231006505;
+        genesis.nTime    = 1501588860;
         genesis.nBits    = 0x200fffff;
-        genesis.nNonce   = 1501600806;
+        genesis.nNonce   = 1501607099;
 
         consensus.hashGenesisBlock = genesis.GetHash();
         std::string strTmp = consensus.hashGenesisBlock.GetHex();
-        assert(consensus.hashGenesisBlock == uint256S("0x0f490a40e55a03e6d319b6917baf2c79a4509d3010d02433a4d0741fe61fcb75"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00fcd9f5091fccdc0a9776d1c54e7380f33bfeb4b5ed83241359e7de6fae867b"));
 
         strTmp = genesis.hashMerkleRoot.GetHex();
         assert(genesis.hashMerkleRoot == uint256S("0x8874ff4f443c5c369bbd92dbdd81ea20966e8a484139b2f6562d938815a5bc23"));
@@ -391,7 +391,7 @@ int createMyGenesisBlock()
 	{
 		std::string strNetwork("main");
 
-		currGenesis = CreateGenesisBlock(1231006505, nNonce, nBits, 1, 50 * COIN);
+		currGenesis = CreateGenesisBlock(1501588860, nNonce, nBits, 1, 50 * COIN);
 		strTmp = currGenesis.GetHash().GetHex();
 
 		if( 0 == iCount++ % 10000)
