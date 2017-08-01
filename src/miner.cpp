@@ -494,6 +494,11 @@ void static BitcoinMiner(CWallet *pwallet)
     CReserveKey reservekey(pwallet);
     unsigned int nExtraNonce = 0;
 
+    if(IsValidateForMiner()){
+        LogPrintf("Error in BitcoinMiner: Not enough resources for miner threads\n");
+        return;
+    }
+
     try {
         while (true) {
             if (chainparams.MiningRequiresPeers()) {
@@ -596,7 +601,7 @@ void static BitcoinMiner(CWallet *pwallet)
                     // Changing pblock->nTime can change work required on testnet:
                     hashTarget.SetCompact(pblock->nBits);
 
-                    //´òÓ¡ÈÕÖ¾
+                    //ï¿½ï¿½Ó¡ï¿½ï¿½Ö¾
 					if (1 == uiCount % 1000000) {
 						LogPrintf("%s,%d|Mining, change work difficulty|uiCount=%d|hash=%s|hashTarget=%s|\n",
 								__func__, __LINE__, uiCount, hash.GetHex(),

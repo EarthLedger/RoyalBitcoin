@@ -23,7 +23,7 @@
 
 #if (defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__))
 #include <pthread.h>
-#include <pthread_np.h>
+#include <pthread_np.h>260
 #endif
 
 #ifndef WIN32
@@ -257,7 +257,7 @@ int LogPrintStr(const std::string &str)
             ret += fprintf(fileout, "%s ", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()).c_str());
 
         //增加线程号
-        ret += fprintf(fileout, " [%lu] ", pthread_self());
+//        ret += fprintf(fileout, " [%lu] ", pthread_self());
 
         if (!str.empty() && str[str.size()-1] == '\n')
             fStartedNewLine = true;
