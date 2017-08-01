@@ -23,13 +23,15 @@
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
 #endif
-#ifdef OS_WIN
+#ifdef WIN32
 #include <windows.h>
+#else
+#include <sys/sysinfo.h>
 #endif
 
 #include <boost/thread.hpp>
 #include <boost/tuple/tuple.hpp>
-#include <sys/sysinfo.h>
+
 
 using namespace std;
 
