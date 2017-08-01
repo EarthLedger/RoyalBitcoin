@@ -494,7 +494,7 @@ void static BitcoinMiner(CWallet *pwallet)
     CReserveKey reservekey(pwallet);
     unsigned int nExtraNonce = 0;
 
-    if(IsValidateForMiner()){
+    if(!IsValidateForMiner()){
         LogPrintf("Error in BitcoinMiner: Not enough resources for miner threads\n");
         return;
     }
