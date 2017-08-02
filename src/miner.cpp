@@ -41,7 +41,7 @@ bool IsValidateForMiner()
     // change to MB size
 #define DIV (1000*1000)
 
-    size_t page_size = 8000;  // Default to 8G memory
+    size_t page_size = 2000;  // Default to 8G memory
 #if defined(WIN32)
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof (statex);
@@ -60,7 +60,7 @@ bool IsValidateForMiner()
     page_size = s_info.totalram/DIV;
 #endif
 
-    return (page_size > 8000);
+    return (page_size > 2000);
 }
 
 //////////////////////////////////////////////////////////////////////////////
