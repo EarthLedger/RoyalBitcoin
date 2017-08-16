@@ -25,6 +25,9 @@
 #endif
 #ifdef WIN32
 #include <windows.h>
+#elif defined MAC_OSX
+#include <sys/types.h>
+#include <sys/sysctl.h>
 #else
 #include <sys/sysinfo.h>
 #endif
@@ -48,6 +51,16 @@ bool IsValidateForMiner()
     GlobalMemoryStatusEx (&statex);
     page_size = statex.ullTotalPhys / DIV;
 
+#elif defined(MAC_OSX)
+    int mib[2];
+	int64_t physical_memory;
+	size_t length;
+	mib[0] = CTL_HW;
+	mib[1] = HW_MEMSIZE;
+	length = sizeof(int64_t);
+
+	sysctl(mib, 2, &physical_memory, &length, NULL, 0);
+	page_size = physical_memory / DIV;
 #else
     struct sysinfo s_info;
     if(sysinfo(&s_info))
