@@ -26,7 +26,7 @@ using namespace std;
 
 
 /*
- *@brief �� bitcoin 0.12 ���������ĺ���
+ *@brief 从 bitcoin 0.12 拷贝过来的函数
  */
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -50,14 +50,18 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 }
 
 /*
- *@brief �� bitcoin 0.12 ���������ĺ���
+ *@brief 从 bitcoin 0.12 拷贝过来的函数
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-//    const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+	//创世纪块时间戳   GBK字符集的    "热烈庆祝中国人民解放军建军90周年-From EarthLedger";
+	const char* pszTimestamp = { 0xC8, 0xC8, 0xC1, 0xD2, 0xC7, 0xEC, 0xD7, 0xA3,
+			0xD6, 0xD0, 0xB9, 0xFA, 0xC8, 0xCB, 0xC3, 0xF1, 0xBD, 0xE2, 0xB7,
+			0xC5, 0xBE, 0xFC, 0xBD, 0xA8, 0xBE, 0xFC, 0x39, 0x30, 0xD6, 0xDC,
+			0xC4, 0xEA, 0x2D, 0x46, 0x72, 0x6F, 0x6D, 0x20, 0x45, 0x61, 0x72,
+			0x74, 0x68, 0x4C, 0x65, 0x64, 0x67, 0x65, 0x72 };
 
 
-	const char* pszTimestamp = "������ף�й������ž�����90����-From EarthLedger";
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -83,8 +87,8 @@ public:
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 40 * 60; // ���ر��Ѷȵĵĵ�������(2��) ; ��λ����
-        consensus.nPowTargetSpacing = 10 * 60;  //Block�Ĳ����ٶȣ�ƽ��ÿ10��������1��Block  ; ��λ����
+        consensus.nPowTargetTimespan = 40 * 60; //  比特币难度的的调节周期; 单位，秒
+        consensus.nPowTargetSpacing = 10 * 60;  //  Block的产生速度; 单位，秒
         consensus.fPowAllowMinDifficultyBlocks = true;
         /** 
          * The message start string is designed to be unlikely to occur in normal data.
@@ -114,7 +118,13 @@ public:
          */
 //        const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
 
-        const char* pszTimestamp = "������ף�й������ž�����90����-From EarthLedger";
+		//创世纪块时间戳   GBK字符集的    "热烈庆祝中国人民解放军建军90周年-From EarthLedger";
+    	const char* pszTimestamp = { 0xC8, 0xC8, 0xC1, 0xD2, 0xC7, 0xEC, 0xD7, 0xA3,
+    			0xD6, 0xD0, 0xB9, 0xFA, 0xC8, 0xCB, 0xC3, 0xF1, 0xBD, 0xE2, 0xB7,
+    			0xC5, 0xBE, 0xFC, 0xBD, 0xA8, 0xBE, 0xFC, 0x39, 0x30, 0xD6, 0xDC,
+    			0xC4, 0xEA, 0x2D, 0x46, 0x72, 0x6F, 0x6D, 0x20, 0x45, 0x61, 0x72,
+    			0x74, 0x68, 0x4C, 0x65, 0x64, 0x67, 0x65, 0x72 };
+
 
         CMutableTransaction txNew;
         txNew.vin.resize(1);
@@ -373,7 +383,7 @@ bool myCheckProofOfWork(uint256 hash, unsigned int nBits)
 
 
 /*
- *@brief ��ѯ  nonce�� �����Լ��Ĵ����Ϳ飬���� POW
+ *@brief 轮询  nonce， 创建自己的创世纪块，满足 POW
  */
 int createMyGenesisBlock()
 {
