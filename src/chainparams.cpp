@@ -26,7 +26,7 @@ using namespace std;
 
 
 /*
- *@brief ´Ó bitcoin 0.12 ¿½±´¹ıÀ´µÄº¯Êı
+ *@brief ä» bitcoin 0.12 æ‹·è´è¿‡æ¥çš„å‡½æ•°
  */
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -50,14 +50,20 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 }
 
 /*
- *@brief ´Ó bitcoin 0.12 ¿½±´¹ıÀ´µÄº¯Êı
+ *@brief ä» bitcoin 0.12 æ‹·è´è¿‡æ¥çš„å‡½æ•°
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
 //    const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
 
+	//arrTimestamp å­—ç¬¦æ•°ç»„ï¼Œ å†…å®¹æ˜¯ GBKå­—ç¬¦é›†çš„  "çƒ­çƒˆåº†ç¥ä¸­å›½äººæ°‘è§£æ”¾å†›å»ºå†›90å‘¨å¹´-From EarthLedger"  ;
+	unsigned char arrTimestamp[] = { 0xC8, 0xC8, 0xC1, 0xD2, 0xC7, 0xEC, 0xD7, 0xA3,
+			0xD6, 0xD0, 0xB9, 0xFA, 0xC8, 0xCB, 0xC3, 0xF1, 0xBD, 0xE2, 0xB7,
+			0xC5, 0xBE, 0xFC, 0xBD, 0xA8, 0xBE, 0xFC, 0x39, 0x30, 0xD6, 0xDC,
+			0xC4, 0xEA, 0x2D, 0x46, 0x72, 0x6F, 0x6D, 0x20, 0x45, 0x61, 0x72,
+			0x74, 0x68, 0x4C, 0x65, 0x64, 0x67, 0x65, 0x72, 0x0 };
 
-	const char* pszTimestamp = "ÈÈÁÒÇì×£ÖĞ¹úÈËÃñ½â·Å¾ü½¨¾ü90ÖÜÄê-From EarthLedger";
+	const char* pszTimestamp = (const char*)arrTimestamp;
     const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -83,8 +89,8 @@ public:
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 3 * 60; // ±ÈÌØ±ÒÄÑ¶ÈµÄµÄµ÷½ÚÖÜÆÚ(2ÖÜ) ; µ¥Î»£¬Ãë
-        consensus.nPowTargetSpacing = 1 * 60;  //BlockµÄ²úÉúËÙ¶È£¬Æ½¾ùÃ¿10·ÖÖÓÉú³É1¸öBlock  ; µ¥Î»£¬Ãë
+        consensus.nPowTargetTimespan = 40 * 60; // æ¯”ç‰¹å¸éš¾åº¦çš„çš„è°ƒèŠ‚å‘¨æœŸï¼Œ  å•ä½ ç§’; å³æ¯ nPowTargetTimespan ç§’è°ƒèŠ‚ä¸€æ¬¡éš¾åº¦ï¼Œ è¯¥å€¼ä¸€èˆ¬æ˜¯ nPowTargetSpacingçš„æ•´æ•°å€ï¼›
+        consensus.nPowTargetSpacing = 10 * 60;  //Blockçš„äº§ç”Ÿé€Ÿåº¦, å•ä½ ç§’; å³å¹³å‡æ¯ nPowTargetSpacing ç§’ç”Ÿæˆ1ä¸ªBlock
         consensus.fPowAllowMinDifficultyBlocks = true;
         /** 
          * The message start string is designed to be unlikely to occur in normal data.
@@ -114,7 +120,15 @@ public:
          */
 //        const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
 
-        const char* pszTimestamp = "ÈÈÁÒÇì×£ÖĞ¹úÈËÃñ½â·Å¾ü½¨¾ü90ÖÜÄê-From EarthLedger";
+        //arrTimestamp å­—ç¬¦æ•°ç»„ï¼Œ å†…å®¹æ˜¯ GBKå­—ç¬¦é›†çš„  "çƒ­çƒˆåº†ç¥ä¸­å›½äººæ°‘è§£æ”¾å†›å»ºå†›90å‘¨å¹´-From EarthLedger"  ;
+        unsigned char arrTimestamp[] = { 0xC8, 0xC8, 0xC1, 0xD2, 0xC7, 0xEC, 0xD7, 0xA3,
+        			0xD6, 0xD0, 0xB9, 0xFA, 0xC8, 0xCB, 0xC3, 0xF1, 0xBD, 0xE2, 0xB7,
+        			0xC5, 0xBE, 0xFC, 0xBD, 0xA8, 0xBE, 0xFC, 0x39, 0x30, 0xD6, 0xDC,
+        			0xC4, 0xEA, 0x2D, 0x46, 0x72, 0x6F, 0x6D, 0x20, 0x45, 0x61, 0x72,
+        			0x74, 0x68, 0x4C, 0x65, 0x64, 0x67, 0x65, 0x72, 0x0 };
+
+
+        const char* pszTimestamp = (const char*)arrTimestamp;
 
         CMutableTransaction txNew;
         txNew.vin.resize(1);
@@ -373,7 +387,7 @@ bool myCheckProofOfWork(uint256 hash, unsigned int nBits)
 
 
 /*
- *@brief ÂÖÑ¯  nonce£¬ ´´½¨×Ô¼ºµÄ´´ÊÀ¼Í¿é£¬Âú×ã POW
+ *@brief è½®è¯¢  nonceï¼Œ åˆ›å»ºè‡ªå·±çš„åˆ›ä¸–çºªå—ï¼Œæ»¡è¶³ POW
  */
 int createMyGenesisBlock()
 {
