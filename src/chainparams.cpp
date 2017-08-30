@@ -89,8 +89,8 @@ public:
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 40 * 60; // 比特币难度的的调节周期，  单位 秒; 即每 nPowTargetTimespan 秒调节一次难度， 该值一般是 nPowTargetSpacing的整数倍；
-        consensus.nPowTargetSpacing = 10 * 60;  //Block的产生速度, 单位 秒; 即平均每 nPowTargetSpacing 秒生成1个Block
+        consensus.nPowTargetTimespan = 3 * 60; // 比特币难度的的调节周期，  单位 秒; 即每 nPowTargetTimespan 秒调节一次难度， 该值一般是 nPowTargetSpacing的整数倍；
+        consensus.nPowTargetSpacing = 1 * 60;  //Block的产生速度, 单位 秒; 即平均每 nPowTargetSpacing 秒生成1个Block
         consensus.fPowAllowMinDifficultyBlocks = true;
         /** 
          * The message start string is designed to be unlikely to occur in normal data.
